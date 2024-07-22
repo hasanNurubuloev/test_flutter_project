@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:test_flutter_project/screens/registration_screen.dart';
-import 'package:test_flutter_project/models/on_boarding_content.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_flutter_project/models/on_boarding_content.dart';
+import 'package:test_flutter_project/screens/registration_screen.dart';
 
 class OnBoarding extends StatefulWidget {
   @override
@@ -18,7 +18,6 @@ class _OnBoardingState extends State<OnBoarding> {
 
     super.initState();
   }
-
 
   @override
   void dispose() {
@@ -108,8 +107,7 @@ class _OnBoardingState extends State<OnBoarding> {
             child: TextButton(
               onPressed: () {
                 if (currentIndex == contents.length - 1) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => RegistrationScreen()));
+                  _completeOnBoarding();
                 }
                 _controller.nextPage(
                     duration: const Duration(milliseconds: 100),

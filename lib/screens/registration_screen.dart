@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_flutter_project/screens/home_screen.dart';
 import 'package:test_flutter_project/shared/custom_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegistrationScreen extends StatefulWidget {
   RegistrationScreen({super.key});
@@ -28,11 +29,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
     return null;
   }
+  _launchURL(String link) async {
+    final Uri url = Uri.parse(link);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     print('home');
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       body: Padding(
         padding: const EdgeInsets.all(40),
         child: Column(
@@ -102,7 +110,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       });
                       if (_fieldTextLogin.text == 'admin' &&
                           _fieldTextPassword.text == 'admin') {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (_) => const HomeScreen()));
@@ -140,7 +148,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 children: [
                   IconButton(
                     iconSize: 33,
-                    onPressed: () {},
+                    onPressed: () {
+                      _launchURL('https://www.facebook.com/profile.php?id=100012797834392');
+                    },
                     icon: const Icon(
                       Icons.facebook,
                       color: Colors.blue,
@@ -150,7 +160,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     width: 20,
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {_launchURL('https://mail.google.com/mail/u/0/#inbox');},
                     icon: const Icon(
                       CustomIcons.gplus,
                       color: Colors.red,
@@ -161,7 +171,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   IconButton(
                     iconSize: 33,
-                    onPressed: () {},
+                    onPressed: () {_launchURL('https://x.com/?lang=ru');},
                     icon: const Icon(
                       CustomIcons.twitter,
                       color: Colors.blue,
