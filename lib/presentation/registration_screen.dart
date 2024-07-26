@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_flutter_project/screens/home_screen.dart';
+import 'package:test_flutter_project/home/home_screen.dart';
 import 'package:test_flutter_project/shared/custom_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,7 +29,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
     return null;
   }
-  _launchURL(String link) async {
+  void _launchURL(String link) async {
     final Uri url = Uri.parse(link);
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
@@ -113,7 +113,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => const HomeScreen()));
+                                builder: (_) =>  HomeScreen()));
                       }
                     },
                     style: ButtonStyle(

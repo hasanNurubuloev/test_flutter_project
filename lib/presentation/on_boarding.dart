@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_flutter_project/models/on_boarding_content.dart';
-import 'package:test_flutter_project/screens/registration_screen.dart';
+import 'package:test_flutter_project/presentation/registration_screen.dart';
 
 class OnBoarding extends StatefulWidget {
   @override

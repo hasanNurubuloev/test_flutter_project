@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:test_flutter_project/screens/registration_screen.dart';
-import 'package:test_flutter_project/screens/on_boarding.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_flutter_project/main_bloc.dart';
+import 'package:test_flutter_project/presentation/on_boarding.dart';
+import 'package:test_flutter_project/presentation/registration_screen.dart';
 
 void main() {
-  runApp( MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-  int _slideIndex = 0;
+  static const goodsKey = 'goods';
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
 
   final List<String> images = [
     'assets/images/1.jpg',
@@ -21,29 +29,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Test',
-      home: FutureBuilder<bool>(
-        future: _getOnBoardingStatus(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            if (snapshot.data == true) {
+    return BlocProvider<MainBloc>(
+      create: (BuildContext context) {
+        return MainBloc()..add(MainEvent());
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Test',
+        home: BlocBuilder<MainBloc, MainState>(
+          builder: (context, state) {
+            if (state.onBoardingShown == true) {
               return RegistrationScreen();
             } else {
               return OnBoarding();
             }
-          }
-        },
+          },
+        ),
       ),
     );
   }
-  Future<bool> _getOnBoardingStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isOnBoardingShown') ?? false;
-  }
 }
-
-
