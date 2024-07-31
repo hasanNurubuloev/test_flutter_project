@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:test_flutter_project/models/on_boarding_content.dart';
-import 'package:test_flutter_project/presentation/registration_screen.dart';
+import 'package:test_flutter_project/on_boarding/data/on_boarding_content.dart';
+import 'package:test_flutter_project/router.dart';
 
-class OnBoarding extends StatefulWidget {
+class OnBoardingScreen extends StatefulWidget {
   @override
-  State<OnBoarding> createState() => _OnBoardingState();
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
-class _OnBoardingState extends State<OnBoarding> {
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int currentIndex = 0;
   late PageController _controller;
 
@@ -28,16 +29,14 @@ class _OnBoardingState extends State<OnBoarding> {
   Future<void> _completeOnBoarding() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isOnBoardingShown', true);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => RegistrationScreen()),
-    );
+    context.goNamed(AppRoute.registration.name);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         actions: [
           if (currentIndex != contents.length - 1)
             TextButton(
@@ -102,12 +101,14 @@ class _OnBoardingState extends State<OnBoarding> {
           ),
           Container(
             height: 60,
-            margin: EdgeInsets.all(30),
+            margin: const EdgeInsets.all(30),
             width: double.infinity,
             child: TextButton(
               onPressed: () {
                 if (currentIndex == contents.length - 1) {
                   _completeOnBoarding();
+                  //  context.read<MainBloc>().add(MainEvent(true));
+                  //  context.goNamed(AppRoute.registration.name);
                 }
                 _controller.nextPage(
                     duration: const Duration(milliseconds: 100),
@@ -134,7 +135,7 @@ class _OnBoardingState extends State<OnBoarding> {
     return Container(
       height: 10,
       width: currentIndex == index ? 20 : 10,
-      margin: EdgeInsets.only(right: 5),
+      margin: const EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Theme.of(context).primaryColor),

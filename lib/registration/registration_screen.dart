@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test_flutter_project/home/home_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:test_flutter_project/router.dart';
 import 'package:test_flutter_project/shared/custom_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,6 +30,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
     return null;
   }
+
   void _launchURL(String link) async {
     final Uri url = Uri.parse(link);
     if (!await launchUrl(url)) {
@@ -40,7 +42,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     print('home');
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(40),
         child: Column(
@@ -55,12 +57,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
               TextField(
-                decoration:  InputDecoration(
-                    prefixIcon: const Icon(
-                      Icons.mail_outline,
-                    ),
-                    labelText: 'Login',
-                    errorText: _validateLogin ?  'Enter login' : null,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(
+                    Icons.mail_outline,
+                  ),
+                  labelText: 'Login',
+                  errorText: _validateLogin ? 'Enter login' : null,
                 ),
                 controller: _fieldTextLogin,
               ),
@@ -110,10 +112,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       });
                       if (_fieldTextLogin.text == 'admin' &&
                           _fieldTextPassword.text == 'admin') {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) =>  HomeScreen()));
+                        context.goNamed(AppRoute.home.name);
                       }
                     },
                     style: ButtonStyle(
@@ -149,7 +148,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   IconButton(
                     iconSize: 33,
                     onPressed: () {
-                      _launchURL('https://www.facebook.com/profile.php?id=100012797834392');
+                      _launchURL(
+                          'https://www.facebook.com/profile.php?id=100012797834392');
                     },
                     icon: const Icon(
                       Icons.facebook,
@@ -160,7 +160,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     width: 20,
                   ),
                   IconButton(
-                    onPressed: () {_launchURL('https://mail.google.com/mail/u/0/#inbox');},
+                    onPressed: () {
+                      _launchURL('https://mail.google.com/mail/u/0/#inbox');
+                    },
                     icon: const Icon(
                       CustomIcons.gplus,
                       color: Colors.red,
@@ -171,7 +173,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   IconButton(
                     iconSize: 33,
-                    onPressed: () {_launchURL('https://x.com/?lang=ru');},
+                    onPressed: () {
+                      _launchURL('https://x.com/?lang=ru');
+                    },
                     icon: const Icon(
                       CustomIcons.twitter,
                       color: Colors.blue,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_flutter_project/main_bloc.dart';
-import 'package:test_flutter_project/presentation/on_boarding.dart';
-import 'package:test_flutter_project/presentation/registration_screen.dart';
+import 'package:test_flutter_project/main/bloc/main_bloc.dart';
+import 'package:test_flutter_project/router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +18,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   final List<String> images = [
     'assets/images/1.jpg',
     'assets/images/2.jpg',
@@ -29,22 +27,19 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final router = goRouter();
+
     return BlocProvider<MainBloc>(
       create: (BuildContext context) {
-        return MainBloc()..add(MainEvent());
+        return MainBloc()..add(MainEvent(true));
       },
-      child: MaterialApp(
+      child: MaterialApp.router(
+        routerConfig: router,
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Test',
-        home: BlocBuilder<MainBloc, MainState>(
-          builder: (context, state) {
-            if (state.onBoardingShown == true) {
-              return RegistrationScreen();
-            } else {
-              return OnBoarding();
-            }
-          },
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(backgroundColor: Color(0xff102DC6)),
         ),
+        title: 'Flutter Test',
       ),
     );
   }

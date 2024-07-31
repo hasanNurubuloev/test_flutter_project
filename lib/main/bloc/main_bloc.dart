@@ -13,7 +13,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   }
 }
 
-class MainEvent {}
+class MainEvent {
+  bool? onBoardingShown;
+
+  MainEvent(this.onBoardingShown);
+
+}
 
 class MainState {
   bool? onBoardingShown;
