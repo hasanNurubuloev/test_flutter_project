@@ -109,12 +109,11 @@ class _AddingGoodsScreenState extends State<AddingGoodsScreen> {
                           price: _fieldTextPrice.text,
                           dateTime:
                               '${time.day.toString().padLeft(2, '0')}.${time.month.toString().padLeft(2, '0')}.${time.year}'));
-                      print(
-                          'Goods contains letters and price contains only numeric   ${DateTime.now().toUtc().toString()} ');
                     }
                   },
                   style: ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(Colors.blue[500]!),
+                    backgroundColor: WidgetStatePropertyAll(
+                        Theme.of(context).appBarTheme.backgroundColor),
                     foregroundColor: const WidgetStatePropertyAll(Colors.white),
                   ),
                   child: const Text('Save')),

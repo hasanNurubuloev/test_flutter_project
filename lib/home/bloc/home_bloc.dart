@@ -41,22 +41,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       HomeUpdateEvent event, Emitter<HomeState> emit) async {
     List<String> listDataJson = [];
     var prefs = await SharedPreferences.getInstance();
-    state.goodsData?[event.index] =
-        GoodsData(good: event.goodsData.good, price: event.goodsData.price, dateTime: event.goodsData.dateTime);
+    state.goodsData?[event.index] = GoodsData(
+        good: event.goodsData.good,
+        price: event.goodsData.price,
+        dateTime: event.goodsData.dateTime);
     for (var e in state.goodsData ?? []) {
       listDataJson.add(jsonEncode(e));
     }
     prefs.setStringList(HomeScreen.listGoodsDataKey, listDataJson);
     emit(HomeState(state.goodsData));
   }
-  Future<void> _onDeleteGoods( HomeDeleteEvent event, Emitter<HomeState> emit) async{
+
+  Future<void> _onDeleteGoods(
+      HomeDeleteEvent event, Emitter<HomeState> emit) async {
     var prefs = await SharedPreferences.getInstance();
     List<String> listDataJson = [];
     state.goodsData?.removeAt(event.index);
-    //TODO
+
     for (var e in state.goodsData ?? []) {
       listDataJson.add(jsonEncode(e));
     }
+
     prefs.setStringList(HomeScreen.listGoodsDataKey, listDataJson);
     emit(HomeState(state.goodsData));
   }
@@ -82,6 +87,7 @@ class HomeUpdateEvent extends HomeEvent {
 
   HomeUpdateEvent(this.goodsData, this.index);
 }
+
 class HomeDeleteEvent extends HomeEvent {
   GoodsData goodsData;
   int index;

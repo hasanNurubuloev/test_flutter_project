@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,13 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    //getPrefs();
     return BlocProvider<HomeBloc>(
       create: (context) =>
           HomeBloc(HomeState(listGoodsData))..add(HomeGetEvent(listGoodsData)),
@@ -69,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onLongPress: () {
                     showDialog(
                         context: context,
-                        builder: (BuildContext context) => AlertDialog(
+                        builder: (_) => AlertDialog(
                               title: const Text('Delete'),
                               content: const Text('Are you sure want delete?'),
                               actions: [
@@ -88,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   GoodsData(),
                                               index));
                                       //TODO!!!!!!!!!!!!!!!
+
                                     },
                                     child: const Text('OK')),
                               ],
@@ -96,46 +92,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Card(
                     elevation: 5,
                     margin: const EdgeInsets.only(bottom: 8),
-                    child: Container(
-                      child: ListTile(
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              state.goodsData?[index].dateTime ?? '',
-                              textAlign: TextAlign.right,
+                    child: ListTile(
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            state.goodsData?[index].dateTime ?? '',
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff4C4C4C),
+                                fontSize: 25),
+                          ),
+                          const Divider()
+                        ],
+                      ),
+                      subtitle: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              state.goodsData?[index].good ?? '',
                               style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff4C4C4C),
-                                  fontSize: 25),
-                            ),
-                            const Divider()
-                          ],
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Text(
-                                state.goodsData?[index].good ?? '',
-                                style: const TextStyle(
-                                  fontSize: 25,
-                                  color: Color(0xff102DC6),
-                                ),
+                                fontSize: 25,
+                                color: Color(0xff102DC6),
                               ),
                             ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              child: Text(
-                                state.goodsData?[index].price ?? '',
-                                style: const TextStyle(
-                                  fontSize: 25,
-                                  color: Color(0xff102DC6),
-                                ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: Text(
+                              state.goodsData?[index].price ?? '',
+                              style: const TextStyle(
+                                fontSize: 25,
+                                color: Color(0xff102DC6),
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -154,13 +148,14 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: const CircleBorder(
                   side: BorderSide(
                 color: const Color(0xff102DC6),
-                width: 6,
+                width: 4,
               )),
               child: const Text(
                 '+',
                 style: TextStyle(
                     color: const Color(0xff102DC6),
                     fontSize: 40,
+                    fontWeight: FontWeight.w400,
                     backgroundColor: Colors.white),
               ),
             ),

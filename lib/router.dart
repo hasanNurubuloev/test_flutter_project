@@ -16,7 +16,7 @@ enum AppRoute {
 
 GoRouter goRouter() {
   return GoRouter(
-    initialLocation: '/main/presentation',
+    initialLocation: '/home/presentation',
     routes: <RouteBase>[
       GoRoute(
         path: '/main/presentation',
