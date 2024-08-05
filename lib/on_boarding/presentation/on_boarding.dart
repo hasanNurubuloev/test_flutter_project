@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_flutter_project/on_boarding/data/on_boarding_content.dart';
 import 'package:test_flutter_project/router.dart';
+import 'package:test_flutter_project/services/injection.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   Future<void> _completeOnBoarding() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = getIt<SharedPreferences>();
     await prefs.setBool('isOnBoardingShown', true);
     context.goNamed(AppRoute.registration.name);
   }

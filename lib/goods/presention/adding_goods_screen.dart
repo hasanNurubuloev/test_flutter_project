@@ -93,10 +93,14 @@ class _AddingGoodsScreenState extends State<AddingGoodsScreen> {
               width: double.infinity,
               child: TextButton(
                   onPressed: () {
-                    if (widget.status == 'update') {
+                    DateTime time = DateTime.now();
+                    if (widget.goodData != null) {
                       context.pop(GoodsData(
                           good: _fieldTextGoods.text,
-                          price: _fieldTextPrice.text));
+                          price: _fieldTextPrice.text,
+                          dateTime:
+                          '${time.day.toString().padLeft(2, '0')}.${time.month.toString().padLeft(2, '0')}.${time.year}'
+                      ));
                     } else if (_fieldTextGoods.text.isNotEmpty &&
                         _fieldTextPrice.text.isNotEmpty &&
                         RegExp(r'^[a-z A-Z 0-9]+$')

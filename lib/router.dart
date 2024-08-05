@@ -36,12 +36,7 @@ GoRouter goRouter() {
           path: '/goods/presentation',
           name: AppRoute.addGoods.name,
           builder: (context, state){
-            if(state.extra == null) {
-              return const AddingGoodsScreen();
-            }else{
-              print('add extraaaaa ${state.extra}');
-              return AddingGoodsScreen(goodData: state.extra as GoodsData, status: 'update');
-            }
+            return AddingGoodsScreen(goodData: state.extra as GoodsData?);
           }
       ),
 

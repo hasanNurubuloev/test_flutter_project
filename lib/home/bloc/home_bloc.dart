@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_flutter_project/goods/data/goods_data.dart';
 import 'package:test_flutter_project/home/presentation/home_screen.dart';
+import 'package:test_flutter_project/services/injection.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(super.initialState) {
@@ -16,7 +17,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _onGetListGoods(
       HomeGetEvent event, Emitter<HomeState> emit) async {
     List<GoodsData> listData = [];
-    var prefs = await SharedPreferences.getInstance();
+    var prefs = getIt<SharedPreferences>();
     final listGoodsData =
         prefs.getStringList(HomeScreen.listGoodsDataKey) ?? [];
     for (var goodData in listGoodsData) {
@@ -28,7 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _onSetListGoods(
       HomeSetEvent event, Emitter<HomeState> emit) async {
     List<String> listDataJson = [];
-    var prefs = await SharedPreferences.getInstance();
+    var prefs = getIt<SharedPreferences>();
     state.goodsData?.add(event.goodsData);
     for (var e in state.goodsData ?? []) {
       listDataJson.add(jsonEncode(e));
@@ -40,7 +41,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _onUpdateGoods(
       HomeUpdateEvent event, Emitter<HomeState> emit) async {
     List<String> listDataJson = [];
-    var prefs = await SharedPreferences.getInstance();
+    var prefs = getIt<SharedPreferences>();
     state.goodsData?[event.index] = GoodsData(
         good: event.goodsData.good,
         price: event.goodsData.price,
@@ -54,7 +55,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onDeleteGoods(
       HomeDeleteEvent event, Emitter<HomeState> emit) async {
-    var prefs = await SharedPreferences.getInstance();
+    var prefs = getIt<SharedPreferences>();
     List<String> listDataJson = [];
     state.goodsData?.removeAt(event.index);
 
