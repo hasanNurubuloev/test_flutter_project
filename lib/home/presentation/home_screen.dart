@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:test_flutter_project/common/service/shared_service.dart';
 import 'package:test_flutter_project/goods/data/goods_data.dart';
 import 'package:test_flutter_project/home/bloc/home_bloc.dart';
 import 'package:test_flutter_project/router.dart';
+import 'package:test_flutter_project/services/injection.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String listGoodsDataKey = 'listGoodsData';
@@ -17,17 +19,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<GoodsData> listGoodsData = [
-    GoodsData(good: 'go1', price: '20'),
-    GoodsData(good: 'go2', price: '30'),
-    GoodsData(good: 'go3', price: '40'),
-  ];
+   List<GoodsData> listGoodsData = [];
+
+
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
       create: (context) =>
-          HomeBloc(HomeState(listGoodsData))..add(HomeGetEvent(listGoodsData)),
+          HomeBloc(getIt<SharedService>(),HomeState(listGoodsData))..add(HomeGetEvent(listGoodsData)),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {},
         builder: (context, state) {

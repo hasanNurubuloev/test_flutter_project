@@ -1,70 +1,70 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_flutter_project/common/service/shared_service.dart';
 import 'package:test_flutter_project/goods/data/goods_data.dart';
-import 'package:test_flutter_project/home/presentation/home_screen.dart';
-import 'package:test_flutter_project/services/injection.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc(super.initialState) {
+  final SharedService sharedService;
+
+  HomeBloc(this.sharedService, super.initialState) {
     on<HomeGetEvent>(_onGetListGoods);
     on<HomeSetEvent>(_onSetListGoods);
     on<HomeUpdateEvent>(_onUpdateGoods);
     on<HomeDeleteEvent>(_onDeleteGoods);
   }
 
-  Future<void> _onGetListGoods(
-      HomeGetEvent event, Emitter<HomeState> emit) async {
-    List<GoodsData> listData = [];
-    var prefs = getIt<SharedPreferences>();
-    final listGoodsData =
-        prefs.getStringList(HomeScreen.listGoodsDataKey) ?? [];
-    for (var goodData in listGoodsData) {
-      listData.add(GoodsData.fromJson(jsonDecode(goodData)));
-    }
-    emit(HomeState(listData));
+  Future<void> _onGetListGoods(HomeGetEvent event, Emitter<HomeState> emit) async {
+    emit(HomeState(sharedService.getListGoods()));
   }
 
-  Future<void> _onSetListGoods(
-      HomeSetEvent event, Emitter<HomeState> emit) async {
-    List<String> listDataJson = [];
-    var prefs = getIt<SharedPreferences>();
-    state.goodsData?.add(event.goodsData);
-    for (var e in state.goodsData ?? []) {
-      listDataJson.add(jsonEncode(e));
-    }
-    prefs.setStringList(HomeScreen.listGoodsDataKey, listDataJson);
-    emit(HomeState(state.goodsData));
+  // Future<void> _onSetListGoods(
+  //     HomeSetEvent event, Emitter<HomeState> emit) async {
+  //   List<String> listDataJson = [];
+  //   var prefs = getIt<SharedPreferences>();
+  //   state.goodsData?.add(event.goodsData);
+  //   for (var e in state.goodsData ?? []) {
+  //     listDataJson.add(jsonEncode(e));
+  //   }
+  //   prefs.setStringList(HomeScreen.listGoodsDataKey, listDataJson);
+  //   emit(HomeState(state.goodsData));
+  // }
+  Future<void> _onSetListGoods(HomeSetEvent event, Emitter<HomeState> emit) async {
+    emit(HomeState(sharedService.addListGoods(event.goodsData)));
   }
 
-  Future<void> _onUpdateGoods(
-      HomeUpdateEvent event, Emitter<HomeState> emit) async {
-    List<String> listDataJson = [];
-    var prefs = getIt<SharedPreferences>();
-    state.goodsData?[event.index] = GoodsData(
-        good: event.goodsData.good,
-        price: event.goodsData.price,
-        dateTime: event.goodsData.dateTime);
-    for (var e in state.goodsData ?? []) {
-      listDataJson.add(jsonEncode(e));
-    }
-    prefs.setStringList(HomeScreen.listGoodsDataKey, listDataJson);
-    emit(HomeState(state.goodsData));
+  // Future<void> _onUpdateGoods(
+  //     HomeUpdateEvent event, Emitter<HomeState> emit) async {
+  //   List<String> listDataJson = [];
+  //   var prefs = getIt<SharedPreferences>();
+  //   state.goodsData?[event.index] = GoodsData(
+  //       good: event.goodsData.good,
+  //       price: event.goodsData.price,
+  //       dateTime: event.goodsData.dateTime);
+  //   for (var e in state.goodsData ?? []) {
+  //     listDataJson.add(jsonEncode(e));
+  //   }
+  //   prefs.setStringList(HomeScreen.listGoodsDataKey, listDataJson);
+  //   emit(HomeState(state.goodsData));
+  // }
+  Future<void> _onUpdateGoods(HomeUpdateEvent event, Emitter<HomeState> emit) async {
+    emit(HomeState(sharedService.updateListGoods(state.goodsData ?? [], event.goodsData, event.index)));
   }
 
-  Future<void> _onDeleteGoods(
-      HomeDeleteEvent event, Emitter<HomeState> emit) async {
-    var prefs = getIt<SharedPreferences>();
-    List<String> listDataJson = [];
-    state.goodsData?.removeAt(event.index);
+  // Future<void> _onDeleteGoods(
+  //     HomeDeleteEvent event, Emitter<HomeState> emit) async {
+  //   var prefs = getIt<SharedPreferences>();
+  //   List<String> listDataJson = [];
+  //   state.goodsData?.removeAt(event.index);
+  //
+  //   for (var e in state.goodsData ?? []) {
+  //     listDataJson.add(jsonEncode(e));
+  //   }
+  //
+  //   prefs.setStringList(HomeScreen.listGoodsDataKey, listDataJson);
+  //   emit(HomeState(state.goodsData));
+  // }
 
-    for (var e in state.goodsData ?? []) {
-      listDataJson.add(jsonEncode(e));
-    }
-
-    prefs.setStringList(HomeScreen.listGoodsDataKey, listDataJson);
-    emit(HomeState(state.goodsData));
+  Future<void> _onDeleteGoods(HomeDeleteEvent event, Emitter<HomeState> emit) async {
+    emit(HomeState(sharedService.deleteListGoods(state.goodsData ?? [], event.goodsData, event.index)));
   }
 }
 

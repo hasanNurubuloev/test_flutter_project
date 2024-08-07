@@ -1,11 +1,11 @@
 import 'package:injectable/injectable.dart';
 
-@singleton
+@injectable
 class TimerService {
-  int? _timerValue = 60;
+  int _timerValue = 60;
 
 
-  int? getTimerValue() {
+  int getTimerValue() {
     return _timerValue;
   }
 

@@ -63,7 +63,7 @@ GoRouter goRouter() {
         path: '/timer/presentation',
         name: AppRoute.timer.name,
         builder: (context, state){
-          return   TimerScreen(getIt<TimerService>().getTimerValue() ?? 40);
+          return   TimerScreen();
         }
       ),
     ],

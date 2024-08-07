@@ -28,12 +28,12 @@ Future<_i174.GetIt> $initGetIt(
     environmentFilter,
   );
   final module = _$Module();
+  gh.factory<_i286.TimerService>(() => _i286.TimerService());
   await gh.singletonAsync<_i460.SharedPreferences>(
     () => module.prefs,
     preResolve: true,
   );
-  gh.singleton<_i286.TimerService>(() => _i286.TimerService());
-  gh.singleton<_i1.SharedService>(
+  gh.factory<_i1.SharedService>(
       () => _i1.SharedService(gh<_i460.SharedPreferences>()));
   return getIt;
 }

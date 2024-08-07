@@ -5,9 +5,7 @@ import 'package:test_flutter_project/common/service/timer_service.dart';
 import 'package:test_flutter_project/services/injection.dart';
 
 class TimerScreen extends StatefulWidget {
-  int? timerValue;
-
-  TimerScreen(this.timerValue, {super.key});
+  const TimerScreen({super.key});
 
   @override
   State<TimerScreen> createState() => _TimerScreenState();
@@ -15,17 +13,11 @@ class TimerScreen extends StatefulWidget {
 
 class _TimerScreenState extends State<TimerScreen> {
   Timer? _timer;
-  int _timerValue = 40;
+  int _timerValue = 0;
 
-  @override
-  void initState() {
-    _timerValue = widget.timerValue ?? 30;
-    print('init $_timerValue');
-    super.initState();
-  }
 
   void _startTimer() {
-    _timerValue = getIt<TimerService>().getTimerValue()?? 30;
+    _timerValue = getIt<TimerService>().getTimerValue();
     print('ololo');
     _timer != null
         ? _timer?.cancel()
