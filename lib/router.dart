@@ -5,6 +5,10 @@ import 'package:test_flutter_project/home/presentation/home_screen.dart';
 import 'package:test_flutter_project/main/presentation/main_screen.dart';
 import 'package:test_flutter_project/on_boarding/presentation/on_boarding.dart';
 import 'package:test_flutter_project/registration/registration_screen.dart';
+import 'package:test_flutter_project/services/injection.dart';
+import 'package:test_flutter_project/timer/presentation/timer_screen.dart';
+
+import 'common/service/timer_service.dart';
 
 enum AppRoute {
   main,
@@ -12,6 +16,7 @@ enum AppRoute {
   registration,
   home,
   addGoods,
+  timer,
 }
 
 GoRouter goRouter() {
@@ -52,6 +57,13 @@ GoRouter goRouter() {
         name: AppRoute.registration.name,
         builder: (context, state){
           return  RegistrationScreen();
+        }
+      ),
+      GoRoute(
+        path: '/timer/presentation',
+        name: AppRoute.timer.name,
+        builder: (context, state){
+          return   TimerScreen(getIt<TimerService>().getTimerValue() ?? 40);
         }
       ),
     ],

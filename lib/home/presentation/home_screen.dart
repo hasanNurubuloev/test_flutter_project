@@ -33,6 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
+              actions: [
+                TextButton(onPressed:() => context.pushNamed(AppRoute.timer.name), child: const Text('Timer', style: TextStyle(color: Colors.white),))
+              ],
               systemOverlayStyle:
                   const SystemUiOverlayStyle(statusBarColor: Color(0xff102DC6)),
               title: const Text(
